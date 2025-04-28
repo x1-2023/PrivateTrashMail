@@ -12,8 +12,8 @@
 ![](https://img.shields.io/badge/php-8.1%2B-brightgreen.svg)
 ![](https://img.shields.io/badge/python-3.11-brightgreen.svg)
 ![](https://img.shields.io/badge/made%20with-htmx-brightgreen.svg)
-![](https://img.shields.io/docker/image-size/hascheksolutions/opentrashmail/latest?logo=Docker&color=brightgreen)
-[![](https://img.shields.io/docker/pulls/hascheksolutions/opentrashmail?color=brightgreen)](https://hub.docker.com/r/hascheksolutions/opentrashmail)
+![](https://img.shields.io/docker/image-size/nodegenius/privatetrashmail/latest?logo=Docker&color=brightgreen)
+[![](https://img.shields.io/docker/pulls/nodegenius/privatetrashmail?color=brightgreen)](https://hub.docker.com/r/nodegenius/privatetrashmail)
 [![](https://github.com/hascheksolutions/opentrashmail/actions/workflows/build-docker.yml/badge.svg?color=brightgreen)](https://github.com/HaschekSolutions/opentrashmail/actions)
 [![Apache License](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://github.com/HaschekSolutions/opentrashmail/blob/master/LICENSE)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FHaschekSolutions%2Fopentrashmail&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
@@ -184,19 +184,19 @@ This in combination with the configuration option "DOMAINS" (eg docker parameter
 Simple start with no persistence
 
 ```bash
-docker run -it -p 25:25 -p 80:80 -e URL="https://localhost:80" hascheksolutions/opentrashmail:1
+docker run -it -p 25:25 -p 80:80 -e URL="https://localhost:80" nodegenius/privatetrashmail:latest
 ```
 
 Saving data directory on host machine
 
 ```bash
-docker run -p 80:80 -p 25:25 -e URL="https://localhost:80" -v /path/on/host/where/to/save/data:/var/www/opentrashmail/data hascheksolutions/opentrashmail:1
+docker run -p 80:80 -p 25:25 -e URL="https://localhost:80" -v /path/on/host/where/to/save/data:/var/www/opentrashmail/data nodegenius/privatetrashmail:latest
 ```
 
 Complete example with running as daemon, persistence, a domain for auto-generation of emails, acceptng only emails for configured domains, cleanup for mails older than 90 days and auto restart
 
 ```bash
-docker run -d --restart=unless-stopped --name opentrashmail -e "DOMAINS=mydomain.eu" -e "DATEFORMAT='D.M.YYYY HH:mm'" -e "DISCARD_UNKNOWN=false" -e "DELETE_OLDER_THAN_DAYS=90" -p 80:80 -p 25:25 -v /path/on/host/where/to/save/data:/var/www/opentrashmail/data hascheksolutions/opentrashmail:1
+docker run -d --restart=unless-stopped --name privatetrashmail -e "DOMAINS=mydomain.eu" -e "DATEFORMAT='D.M.YYYY HH:mm'" -e "DISCARD_UNKNOWN=false" -e "DELETE_OLDER_THAN_DAYS=90" -p 80:80 -p 25:25 -v /path/on/host/where/to/save/data:/var/www/opentrashmail/data nodegenius/privatetrashmail:latest
 ```
 
 # How it works
