@@ -7,7 +7,7 @@
 </nav>
 
 <div>
-  <a role="button" class="outline" href="#" id="copyemailbtn" onclick="copyEmailToClipboard();return false;"><i class="far fa-clipboard"></i> Copy address to clipboard</a>
+  <a role="button" class="outline" href="#" id="copyemailbtn" data-email="<?= escape($email) ?>" onclick="copyEmailToClipboard(this.dataset.email);return false;"><i class="far fa-clipboard"></i> Copy address to clipboard</a>
   <a role="button" class="outline" href="/rss/<?= $email ?>" target="_blank"><i class="fas fa-rss"></i> RSS Feed</a>
   <a role="button" class="outline" href="/json/<?= $email ?>" target="_blank"><i class="fas fa-file-code"></i> JSON API</a>
 </div>
@@ -52,9 +52,3 @@
 </table>
 
 <script>history.pushState({urlpath:"/address/<?= $email ?>"}, "", "/address/<?= $email ?>");</script>
-<script>
-  function copyEmailToClipboard(){
-    navigator.clipboard.writeText("<?= $email ?>");
-    document.getElementById('copyemailbtn').innerHTML = '<i class="fas fa-check-circle" style="color: green;"></i> Copied!';
-  }
-</script>

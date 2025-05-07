@@ -45,4 +45,22 @@
 <p>If <code>WEBHOOK_URL</code> is set in the config, Open Trashmail will send a POST request to this URL with the JSON data of the email as the body. This can be used to integrate with your own projects.</p>
 
 <p>For more details, see the <a href="https://github.com/x1-2023/PrivateTrashMail#readme" target="_blank">README</a>.</p>
-<script src="/js/prism.js"></script> 
+<script src="/js/prism.js"></script>
+<script>
+// Lấy URL gốc
+var apiBase = window.location.origin;
+// Lấy email hiện tại nếu có trên trang (từ input email hoặc breadcrumb)
+var email = '';
+var emailInput = document.getElementById('email');
+if(emailInput && emailInput.value) email = emailInput.value;
+else {
+  var bc = document.querySelector('nav[aria-label="breadcrumb"] li');
+  if(bc) email = bc.textContent.trim();
+}
+if(!email) email = 'test@' + window.location.hostname;
+// Thay thế các ví dụ
+Array.from(document.querySelectorAll('code.language-bash')).forEach(function(el){
+  el.innerHTML = el.innerHTML.replace(/yourdomain.com/g, apiBase.replace(/^https?:\/\//,''))
+    .replace(/test@example.com/g, email);
+});
+</script> 
