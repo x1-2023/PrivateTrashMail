@@ -44,5 +44,5 @@
 <h2>Webhook</h2>
 <p>If <code>WEBHOOK_URL</code> is set in the config, Open Trashmail will send a POST request to this URL with the JSON data of the email as the body. This can be used to integrate with your own projects.</p>
 
-<p>For more details, see the <a href="https://github.com/HaschekSolutions/opentrashmail#readme" target="_blank">README</a>.</p>
+<p>For more details, see the <a href="https://github.com/x1-2023/PrivateTrashMail#readme" target="_blank">README</a>.</p>
 <script src="/js/prism.js"></script> 
