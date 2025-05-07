@@ -51,6 +51,8 @@ class OpenTrashmailBackend{
                             'settings'=>$this->settings,
                         ]);
                     else return '403 Not activated in config.ini';
+                case 'api-guide':
+                    return $this->renderTemplate('api-guide.html', []);
                 default:
                     return false;
             }

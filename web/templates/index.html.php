@@ -17,6 +17,7 @@
     <a><input id="email" hx-post="/api/address" hx-target="#main" name="email" type="email" style="margin-bottom:0px" hx-trigger="input changed delay:500ms" placeholder="email address" aria-label="email address"></a>
     <a href="/random" hx-get="/api/random" hx-target="#main"><i class="fas fa-random"></i> Generate random</a>
     <?php if($this->settings['ADMIN_ENABLED']==true):?><a href="/admin" hx-get="/api/admin" hx-target="#main" hx-push-url="/admin"><i class="fas fa-user-shield"></i> Admin</a><?php endif; ?>
+    <a href="/api-guide" hx-get="/api/api-guide" hx-target="#main" hx-push-url="/api-guide"><i class="fas fa-book"></i> API Guide</a>
     <a href="javascript:void(0);" class="icon" onclick="navbarmanager()">
       <i class="fa fa-bars"></i>
     </a>
