@@ -1066,10 +1066,59 @@ table[role="grid"] tr:hover td {
   opacity: 0.7;
 }
 
-/* Responsive Adjustments */
+/* Responsive Adjustments - Cải thiện */
 @media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        height: auto;
+        padding: var(--spacing-sm);
+    }
+    
+    .header-left, .header-center, .header-right {
+        width: 100%;
+        margin: var(--spacing-xs) 0;
+    }
+    
+    .email-input-container {
+        flex-wrap: wrap;
+    }
+    
+    .email-input-container input,
+    .email-input-container select,
+    .email-input-container button {
+        flex: 1;
+        min-width: 80px;
+    }
+    
+    .app-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .app-sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-normal);
+    }
+    
+    .app-sidebar.sidebar-open {
+        max-height: 500px;
+    }
+    
+    .main-content {
+        padding: var(--spacing-sm);
+    }
+    
+    table[role="grid"] {
+        display: block;
+        overflow-x: auto;
+    }
+    
     .email-view-header,
-    .account-list-header {
+    .account-list-header,
+    .email-list-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
@@ -1089,25 +1138,47 @@ table[role="grid"] tr:hover td {
     }
     
     .email-actions,
-    .account-list-actions {
-        width: 100%;
-        justify-content: flex-start;
-    }
-    
-    .email-list-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--spacing-md);
-    }
-    
+    .account-list-actions,
     .email-list-actions {
-      width: 100%;
-      flex-wrap: wrap;
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
     
     .email-list-actions button,
     .email-list-actions a {
-      flex: 1;
-      min-width: 120px;
+        flex: 1;
+        min-width: 120px;
+        margin-bottom: var(--spacing-xs);
+        font-size: 0.9rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .email-detail, .raw-email {
+        padding: var(--spacing-md);
+    }
+}
+
+/* Thêm media query cho màn hình rất nhỏ */
+@media (max-width: 480px) {
+    .email-list-actions button span,
+    .email-list-actions a span {
+        margin-right: 0;
+    }
+    
+    .email-list-actions button,
+    .email-list-actions a {
+        padding: var(--spacing-xs);
+        min-width: auto;
+    }
+    
+    table[role="grid"] th,
+    table[role="grid"] td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .email-breadcrumb h2 {
+        font-size: 1.2rem;
     }
 }

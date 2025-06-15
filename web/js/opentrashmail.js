@@ -80,7 +80,7 @@ function generateRandomEmail() {
     }
 }
 
-// Copy email vào clipboard với hiệu ứng
+// Copy email vào clipboard với hiệu ứng và fallback
 function copyEmailToClipboard(email) {
     if (!email) {
         // Thử lấy từ thuộc tính data-email của nút copy
@@ -91,10 +91,53 @@ function copyEmailToClipboard(email) {
     }
     
     if (email) {
-        navigator.clipboard.writeText(email);
         const btn = document.getElementById('copyemailbtn');
-        if (btn) {
-            const originalContent = btn.innerHTML;
+        const originalContent = btn ? btn.innerHTML : '';
+        
+        // Phương pháp 1: Sử dụng Clipboard API nếu có sẵn
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(email)
+                .then(() => {
+                    if (btn) {
+                        btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Đã sao chép!';
+                        btn.classList.add('copied');
+                        
+                        // Khôi phục nội dung ban đầu sau 2 giây
+                        setTimeout(() => {
+                            btn.innerHTML = originalContent;
+                            btn.classList.remove('copied');
+                        }, 2000);
+                    }
+                })
+                .catch(err => {
+                    // Nếu Clipboard API thất bại, sử dụng phương pháp thay thế
+                    fallbackCopyTextToClipboard(email, btn, originalContent);
+                });
+        } else {
+            // Phương pháp 2: Fallback cho các trình duyệt không hỗ trợ Clipboard API
+            fallbackCopyTextToClipboard(email, btn, originalContent);
+        }
+    }
+}
+
+// Phương pháp thay thế để sao chép văn bản
+function fallbackCopyTextToClipboard(text, btn, originalContent) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Tránh cuộn xuống
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful && btn) {
             btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Đã sao chép!';
             btn.classList.add('copied');
             
@@ -104,7 +147,17 @@ function copyEmailToClipboard(email) {
                 btn.classList.remove('copied');
             }, 2000);
         }
+    } catch (err) {
+        console.error('Không thể sao chép: ', err);
+        if (btn) {
+            btn.innerHTML = '<span class="material-symbols-outlined">error</span> Lỗi sao chép';
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+            }, 2000);
+        }
     }
+    
+    document.body.removeChild(textArea);
 }
 
 // Làm mới danh sách email

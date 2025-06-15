@@ -45,13 +45,6 @@
     </header>
     
     <div id="emailbody" class="email-body">
-        <?php if($emaildata['parsed']['htmlbody']): ?>
-            <div class="html-view-option">
-                <a href="#" hx-confirm="Cảnh báo: HTML có thể chứa chức năng theo dõi hoặc script. Bạn có muốn tiếp tục?" hx-get="/api/raw-html/<?= $email ?>/<?= $mailid ?>" hx-target="#emailbody" role="button" class="secondary outline">
-                    <span class="material-symbols-outlined">html</span> Hiển thị dạng HTML
-                </a>
-            </div>
-        <?php endif; ?>
         <div class="email-content">
             <pre><?= nl2br(escape($emaildata['parsed']['body'])) ?></pre>
         </div>
@@ -80,22 +73,4 @@
     </footer>
 </article>
 
-<article class="raw-email">
-    <header>
-        <h3>
-            <span class="material-symbols-outlined">code</span>
-            Email gốc
-        </h3>
-    </header>
-    <div class="raw-email-actions">
-        <a href="/api/raw/<?= $email ?>/<?= $mailid ?>" target="_blank" role="button" class="outline">
-            <span class="material-symbols-outlined">open_in_new</span> Mở trong cửa sổ mới
-        </a>
-    </div>
-    <pre class="raw-email-content"><button hx-get="/api/raw/<?= $email ?>/<?= $mailid ?>" hx-swap="outerHTML">
-        <span class="material-symbols-outlined">download</span> Tải email gốc
-    </button></pre>
-</article>
-
-<!-- 
-<script>history.pushState({email:"<?= $email ?>",id:"<?= $mailid ?>"}, "", "/read/<?= $email ?>/<?= $mailid ?>");</script> -->
+<script>history.pushState({urlpath:"/read/<?= $email ?>/<?= $mailid ?>"}, "", "/read/<?= $email ?>/<?= $mailid ?>");</script>
