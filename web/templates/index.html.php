@@ -5,15 +5,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <link rel="stylesheet" href="/css/pico.min.css">
-  <link rel="stylesheet" href="/css/fontawesome.min.css">
   <link rel="stylesheet" href="/css/prism.css">
-  <link rel="stylesheet" href="/css/opentrashmail.css">
+  <link rel="stylesheet" href="/css/opentrashmail-dark.css">
   <title>Private Trash Mail</title>
 </head>
 
 <body class="dark-theme">
-  <!-- Header với glass morphism effect -->
+  <!-- Header với glass morphism effect cải tiến -->
   <header class="app-header">
     <div class="header-left">
       <button id="sidebar-toggle" class="icon-button" aria-label="Toggle Sidebar">
@@ -52,7 +52,7 @@
 
   <!-- Main container with sidebar and content -->
   <div class="app-container">
-    <!-- Sidebar -->
+    <!-- Sidebar với hiệu ứng glass morphism -->
     <aside class="app-sidebar" id="app-sidebar">
       <div class="sidebar-content">
         <div class="sidebar-section">
@@ -107,13 +107,13 @@
       </div>
     </aside>
 
-    <!-- Main content -->
+    <!-- Main content với hiệu ứng loading -->
     <main id="main-content" class="main-content" hx-get="/api/<?= $url ?>" hx-trigger="load">
       <!-- Content will be loaded here -->
     </main>
   </div>
 
-  <!-- Footer -->
+  <!-- Footer cải tiến -->
   <footer class="app-footer">
     <div class="footer-content">
       <div class="footer-links">
@@ -128,99 +128,15 @@
     </div>
   </footer>
 
-  <!-- Loading indicator -->
+  <!-- Loading indicator cải tiến -->
   <div class="htmx-indicator" aria-busy="true">
     <div class="loading-spinner"></div>
     <span>Loading...</span>
   </div>
 
   <!-- Scripts -->
-  <script src="/js/opentrashmail.js"></script>
   <script src="/js/htmx.min.js"></script>
   <script src="/js/moment-with-locales.min.js"></script>
-  <script>
-    // Biến môi trường cho domain
-    const availableDomains = <?= json_encode($domains) ?>;
-    
-    // Tự động ghép email và gửi khi ấn nút Get mail
-    document.getElementById('getmail').onclick = function(e) {
-      e.preventDefault();
-      var name = document.getElementById('email_name').value.trim();
-      var domain = document.getElementById('email_domain').value.trim();
-      if(!name) { alert('Please enter email name'); return; }
-      var email = name + '@' + domain;
-      // Gửi qua htmx như input cũ
-      htmx.ajax('POST', '/api/address', {target:'#main-content', values:{email:email}});
-    };
-    
-    // Enter trong input cũng trigger nút
-    document.getElementById('email_name').addEventListener('keydown', function(e){
-      if(e.key==='Enter') document.getElementById('getmail').click();
-    });
-    
-    // Toggle sidebar trên mobile
-    document.getElementById('sidebar-toggle').addEventListener('click', function() {
-      document.getElementById('app-sidebar').classList.toggle('sidebar-open');
-    });
-    
-    // Tạo email ngẫu nhiên
-    document.getElementById('compose-btn').addEventListener('click', function() {
-      htmx.ajax('GET', '/api/random', {target:'#main-content'});
-    });
-    
-    // Refresh emails
-    document.getElementById('refresh-btn').addEventListener('click', function() {
-      const currentUrl = window.location.pathname;
-      htmx.ajax('GET', '/api' + currentUrl, {target:'#main-content'});
-    });
-    
-    // Debounce function for search
-    function debounce(func, wait) {
-      let timeout;
-      return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-      };
-    }
-    
-    // Search emails with debounce
-    const searchInput = document.getElementById('search-mail');
-    const performSearch = debounce(function(query) {
-      // Implement search functionality
-      console.log('Searching for:', query);
-      // Add actual search implementation here
-    }, 300);
-    
-    searchInput.addEventListener('input', function(e) {
-      performSearch(e.target.value);
-    });
-    
-    // Auto reload emails every 15 seconds
-    let autoReloadInterval;
-    function startAutoReload() {
-      autoReloadInterval = setInterval(function() {
-        const currentUrl = window.location.pathname;
-        if (currentUrl.includes('/address/')) {
-          htmx.ajax('GET', '/api' + currentUrl, {target:'#main-content'});
-          console.log('Auto-reloaded emails');
-        }
-      }, 15000); // 15 seconds
-    }
-    
-    // Start auto reload
-    startAutoReload();
-    
-    // Update unread count (placeholder for actual implementation)
-    function updateUnreadCount(count) {
-      const unreadBadge = document.querySelector('.unread-count');
-      if (unreadBadge) {
-        unreadBadge.textContent = count;
-        unreadBadge.style.display = count > 0 ? 'inline-flex' : 'none';
-      }
-    }
-    
-    // Example: Update with some dummy data
-    setTimeout(() => updateUnreadCount(3), 1000);
-  </script>
+  <script src="/js/opentrashmail.js"></script>
 </body>
 </html>

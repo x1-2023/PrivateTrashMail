@@ -1,10 +1,19 @@
-// OpenTrashMail JavaScript Functions
+// OpenTrashMail JavaScript Functions - Enhanced UI
 
 // Lưu trạng thái sidebar trong localStorage
 function toggleSidebar() {
     const sidebar = document.getElementById('app-sidebar');
     const isSidebarOpen = sidebar.classList.toggle('sidebar-open');
     localStorage.setItem('sidebarOpen', isSidebarOpen);
+    
+    // Thêm hiệu ứng ripple khi click
+    const toggle = document.getElementById('sidebar-toggle');
+    if (toggle) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple-effect');
+        toggle.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+    }
 }
 
 // Khôi phục trạng thái sidebar khi tải trang
@@ -32,9 +41,18 @@ function initSidebar() {
             localStorage.setItem('sidebarOpen', false);
         }
     });
+    
+    // Thêm hiệu ứng active cho menu item
+    const menuItems = document.querySelectorAll('.sidebar-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            menuItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
 }
 
-// Tạo email ngẫu nhiên
+// Tạo email ngẫu nhiên với hiệu ứng
 function generateRandomEmail() {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let randomName = '';
@@ -46,13 +64,23 @@ function generateRandomEmail() {
     
     const emailInput = document.getElementById('email_name');
     if (emailInput) {
-        emailInput.value = randomName;
-        // Trigger nút Get mail
-        document.getElementById('getmail').click();
+        // Hiệu ứng typing
+        emailInput.value = '';
+        let i = 0;
+        const typeInterval = setInterval(() => {
+            if (i < randomName.length) {
+                emailInput.value += randomName.charAt(i);
+                i++;
+            } else {
+                clearInterval(typeInterval);
+                // Trigger nút Get mail sau khi hoàn thành typing
+                setTimeout(() => document.getElementById('getmail').click(), 300);
+            }
+        }, 50);
     }
 }
 
-// Copy email vào clipboard
+// Copy email vào clipboard với hiệu ứng
 function copyEmailToClipboard(email) {
     if (!email) {
         // Thử lấy từ thuộc tính data-email của nút copy
@@ -68,10 +96,12 @@ function copyEmailToClipboard(email) {
         if (btn) {
             const originalContent = btn.innerHTML;
             btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Đã sao chép!';
+            btn.classList.add('copied');
             
             // Khôi phục nội dung ban đầu sau 2 giây
             setTimeout(() => {
                 btn.innerHTML = originalContent;
+                btn.classList.remove('copied');
             }, 2000);
         }
     }
