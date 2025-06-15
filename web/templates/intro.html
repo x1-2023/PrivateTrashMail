@@ -1,6 +1,42 @@
-<div class="text-center">
-    <img src="/imgs/logo-300.png" alt="Private Trash Mail Logo">
-    <h1>Welcome to Private Trash Mail</h1>
-    <p><a href="https://github.com/x1-2023/PrivateTrashMail" target="_blank" role="button" class="secondary"><i class="fab fa-github"></i> View on Github</a></p>
-    <p>Private Trash Mail is an open source, selfhostable, disposable email service that helps you protect your privacy online. With Private Trash Mail, you can create your own trashmail addresses using your own domain, subdomain or wildcard domain</p>
+<div class="welcome-container">
+    <div class="welcome-header">
+        <img src="/imgs/logo-300.png" alt="OpenTrashMail Logo" class="welcome-logo">
+        <h1>Chào mừng đến với OpenTrashMail</h1>
+    </div>
+    
+    <div class="welcome-content">
+        <p class="welcome-description">OpenTrashMail là dịch vụ email dùng một lần mã nguồn mở, tự host được, giúp bạn bảo vệ quyền riêng tư trực tuyến. Với OpenTrashMail, bạn có thể tạo địa chỉ email tạm thời sử dụng tên miền riêng, tên miền phụ hoặc tên miền wildcard.</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <span class="material-symbols-outlined feature-icon">shield</span>
+                <h3>Bảo vệ quyền riêng tư</h3>
+                <p>Tránh spam và theo dõi bằng cách sử dụng địa chỉ email dùng một lần</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="material-symbols-outlined feature-icon">dns</span>
+                <h3>Tự host</h3>
+                <p>Kiểm soát hoàn toàn dữ liệu của bạn bằng cách tự host trên máy chủ riêng</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="material-symbols-outlined feature-icon">code</span>
+                <h3>Mã nguồn mở</h3>
+                <p>Hoàn toàn miễn phí và mã nguồn mở, có thể tùy chỉnh theo nhu cầu của bạn</p>
+            </div>
+        </div>
+        
+        <div class="welcome-actions">
+            <button onclick="generateRandomEmail()" class="primary-action">
+                <span class="material-symbols-outlined">shuffle</span>
+                Tạo email ngẫu nhiên
+            </button>
+            
+            <a href="https://github.com/HaschekSolutions/opentrashmail" target="_blank" role="button" class="secondary-action">
+                <span class="material-symbols-outlined">code</span>
+                Xem trên GitHub
+            </a>
+        </div>
+    </div>
 </div>

@@ -1,40 +1,78 @@
-<nav aria-label="breadcrumb">
-  <ul>
-    <li><a href="/address/<?= $email ?>" hx-get="/api/address/<?= $email ?>" hx-target="#main"><?= escape($email) ?></a></li>
-    <li><?= escape($emaildata['parsed']['subject']) ?></li>
-  </ul>
-</nav>
+<div class="email-view-header">
+  <div class="email-breadcrumb">
+    <a href="/address/<?= $email ?>" hx-get="/api/address/<?= $email ?>" hx-target="#main-content">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <?= escape($email) ?>
+    </a>
+  </div>
+  
+  <div class="email-actions">
+    <button role="button" class="outline" onclick="window.history.back()">
+      <span class="material-symbols-outlined">arrow_back</span> Quay lại
+    </button>
+    <a role="button" class="outline delete-btn" href="#" hx-get="/api/delete/<?= $email ?>/<?= $mailid ?>" hx-confirm="Bạn có chắc chắn muốn xóa?" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="/address/<?= $email ?>">
+      <span class="material-symbols-outlined">delete</span> Xóa
+    </a>
+  </div>
+</div>
 
-<article>
+<article class="email-detail">
     <header>
-        <p>Subject: <?= escape($emaildata['parsed']['subject']) ?></p>
-        <p>Received: <span id="date2-<?= $mailid ?>"><script>document.getElementById('date2-<?= $mailid ?>').innerHTML = moment.unix(parseInt(<?=$mailid?>/1000)).format('<?= $dateformat; ?>');</script></span></p>
-
-        <p>
-            Recipients:
-            <?php foreach ($emaildata['rcpts'] as $to) : ?>
-                <small class="badge"><?= escape($to) ?></small>
-            <?php endforeach; ?>
-        </p>
+        <h2><?= escape($emaildata['parsed']['subject']) ?></h2>
+        
+        <div class="email-meta">
+            <div class="meta-item">
+                <span class="material-symbols-outlined">schedule</span>
+                <span id="date2-<?= $mailid ?>">
+                    <script>document.getElementById('date2-<?= $mailid ?>').innerHTML = moment.unix(parseInt(<?=$mailid?>/1000)).format('<?= $dateformat; ?>');</script>
+                </span>
+            </div>
+            
+            <div class="meta-item">
+                <span class="material-symbols-outlined">person</span>
+                <span><?= escape($emaildata['parsed']['from']) ?></span>
+            </div>
+            
+            <div class="meta-item">
+                <span class="material-symbols-outlined">alternate_email</span>
+                <span>
+                    <?php foreach ($emaildata['rcpts'] as $to) : ?>
+                        <span class="badge"><?= escape($to) ?></span>
+                    <?php endforeach; ?>
+                </span>
+            </div>
+        </div>
     </header>
     
-    <div id="emailbody">
+    <div id="emailbody" class="email-body">
         <?php if($emaildata['parsed']['htmlbody']): ?>
-            <a href="#" hx-confirm="Warning: HTML may contain tracking functionality or scripts. Do you want to proceed?" hx-get="/api/raw-html/<?= $email ?>/<?= $mailid ?>" hx-target="#emailbody" role="button" class="secondary outline">Render email in HTML</a>
+            <div class="html-view-option">
+                <a href="#" hx-confirm="Cảnh báo: HTML có thể chứa chức năng theo dõi hoặc script. Bạn có muốn tiếp tục?" hx-get="/api/raw-html/<?= $email ?>/<?= $mailid ?>" hx-target="#emailbody" role="button" class="secondary outline">
+                    <span class="material-symbols-outlined">html</span> Hiển thị dạng HTML
+                </a>
+            </div>
         <?php endif; ?>
-        <hr>
-        <pre><?= nl2br(escape($emaildata['parsed']['body'])) ?></pre>
+        <div class="email-content">
+            <pre><?= nl2br(escape($emaildata['parsed']['body'])) ?></pre>
+        </div>
     </div>
+    
     <footer>
-        Attachments
-        <div>
+        <h3>
+            <span class="material-symbols-outlined">attachment</span>
+            Tệp đính kèm
+        </h3>
+        <div class="attachments-list">
             <?php if (count($emaildata['parsed']['attachments']) == 0) : ?>
-                <small class="secondary">No attachments</small>
+                <p class="no-attachments">Không có tệp đính kèm</p>
             <?php endif; ?>
             <ul>
                 <?php foreach ($emaildata['parsed']['attachments'] as $attachment) : ?>
                     <li>
-                        <a target="_blank" href="/api/attachment/<?= $email ?>/<?= $attachment ?>"><?= escape($attachment) ?></a>
+                        <a target="_blank" href="/api/attachment/<?= $email ?>/<?= $attachment ?>">
+                            <span class="material-symbols-outlined">description</span>
+                            <?= escape($attachment) ?>
+                        </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -42,10 +80,21 @@
     </footer>
 </article>
 
-<article>
-    <header>Raw email</header>
-    <a href="/api/raw/<?= $email ?>/<?= $mailid ?>" target="_blank">Open in new Window</a>
-    <pre><button hx-get="/api/raw/<?= $email ?>/<?= $mailid ?>" hx-swap="outerHTML">Load Raw Email</button></pre>
+<article class="raw-email">
+    <header>
+        <h3>
+            <span class="material-symbols-outlined">code</span>
+            Email gốc
+        </h3>
+    </header>
+    <div class="raw-email-actions">
+        <a href="/api/raw/<?= $email ?>/<?= $mailid ?>" target="_blank" role="button" class="outline">
+            <span class="material-symbols-outlined">open_in_new</span> Mở trong cửa sổ mới
+        </a>
+    </div>
+    <pre class="raw-email-content"><button hx-get="/api/raw/<?= $email ?>/<?= $mailid ?>" hx-swap="outerHTML">
+        <span class="material-symbols-outlined">download</span> Tải email gốc
+    </button></pre>
 </article>
 
 <!-- 
